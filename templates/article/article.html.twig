@@ -1,0 +1,32 @@
+{% if article.image %}
+    {% set src = vich_uploader_asset(article, 'imageFile') %}
+{% else %}
+    {% set src = "https://via.placeholder.com/200" %}
+{% endif %}
+<div class="card mb-3">
+    <h5 class="card-header">{{ article.date | date('Y-m-d H:i:s') }} - {{ article.title }}</h5>
+    <div class="card-body">
+        <div class='row'>
+            <div class='col-8'>
+                <a href="{{ path('post_detail', { 'slug': article.slug }) }}"
+                class="text-decoration-none text-body">{{ article.text|shorten|nl2br}}</a>
+            </div>
+            <div class='col-4'>
+                <img src="{{ src }}" alt="{{ article.image }}" height=200>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col">
+                <a href="?author={{article.author.username}}"
+                    class="text-decoration-none text-body">
+                    Autor: {{ article.author.username }}
+                </a>
+            </div>
+            <div class="col text-right">
+                Comments: {{ article.comments|length }}
+            </div>
+        </div>
+    </div>
+</div>

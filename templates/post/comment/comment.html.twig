@@ -1,0 +1,18 @@
+{% if comment %}
+    <td>{{ index }}</td>
+    <td>
+        {{ comment.name }} @ {{ comment.email }}
+        <br/>
+        <b>said @ {{ comment.date|date('d.m.Y H:i') }}:</b> {{ comment.text }}
+    </td>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <td>
+            <div class='d-flex justify-content-center'>
+                {% include 'post/comment/_delete_form.html.twig' with {'comment': comment} %}
+                {% include 'post/comment/_validate_form.html.twig' with {'comment': comment} %}
+            </div>
+        </td>
+        {% endif %}
+
+{% endif %}

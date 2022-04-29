@@ -1,0 +1,14 @@
+{% if form %}
+    {{ form_start(form) }}
+        <div class='row'>
+            <div class='col'>
+                {{ form_widget(form) }}
+            </div>
+            <div class='col'>
+                <button class="btn btn-primary">
+                    {{ submit_label|default('Vote') }}
+                </button>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endif %}

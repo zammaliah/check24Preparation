@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post{% endblock %}
+
+{% block body %}
+  <div class="card">
+    <div class="card-header">
+        <h2>{{ post.date ? post.date|date('Y-m-d') : '' }}</h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <h5>{{ post.title }}</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <img src="{{ vich_uploader_asset(post, 'imageFile') }}" alt="{{ post.image }}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <img src=""/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+
+          <p>{{ post.text|nl2br }}</p>
+          <p>Autor: {{ post.author.username }}</p>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col'>
+          {% include 'post/vote/_vote_form.html.twig' with {'form': vote} %}
+        </div>
+        <div class='col text-right'>
+          Rate : {{post.rate}}
+        </div>
+      </div>
+
+      {% include 'post/comment/_comment_form.html.twig' with {'form': comment} %}
+
+      {% if comments|length > 0 %}
+        <table class="table">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>User</th>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+              <th class="text-center">Action</th>
+            {% endif %}
+          </tr>
+          </thead>
+          <tbody>
+          {% for comment in comments %}
+            <tr>
+                {% include 'post/comment/comment.html.twig' with {
+                  'index':loop.index,
+                  'comment': comment
+                } %}
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        Make the first comment
+        <br/>
+      {% endif %}
+
+    </div>
+    <div class="card-footer">
+      <a href="{{ path('post_index') }}">back to list</a>
+    </div>
+  </div>
+
+{% endblock %}
